@@ -11,6 +11,7 @@ export default function Register() {
     password: "",
   });
 
+
   const registerUser = async (e: React.FormEvent<HTMLInputElement>) => {
     e.preventDefault();
     axios

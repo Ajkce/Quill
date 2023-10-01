@@ -1,8 +1,9 @@
-import { cn } from "@/lib/utils";
+import { cn } from "@/libs/utils";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Navbar from "@/components/Navbar";
+import AuthContextProvider from "./context/AuthContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,8 +25,10 @@ export default function RootLayout({
           inter.className
         )}
       >
-        <Navbar></Navbar>
-        {children}
+        <AuthContextProvider>
+          <Navbar></Navbar>
+          {children}
+        </AuthContextProvider>
       </body>
     </html>
   );

@@ -6,11 +6,6 @@ import GoogleProvider from "next-auth/providers/google";
 import GithubProvider from "next-auth/providers/github";
 import bcrypt from "bcrypt";
 
-interface Credentials {
-  clientId: string;
-  clientSecret: string;
-}
-
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
@@ -62,10 +57,12 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   ],
+
   secret: process.env.SECRET,
   session: {
     strategy: "jwt",
   },
+
   debug: process.env.NODE_ENV === "development",
 };
 

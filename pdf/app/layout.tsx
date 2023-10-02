@@ -5,6 +5,8 @@ import { Inter } from "next/font/google";
 import Navbar from "@/components/Navbar";
 import AuthContextProvider from "./context/AuthContext";
 import ToasterContext from "./context/ToasterContext";
+import Providers from "@/components/Providers";
+import "react-loading-skeleton/dist/skeleton.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -27,9 +29,11 @@ export default function RootLayout({
         )}
       >
         <AuthContextProvider>
-          <ToasterContext></ToasterContext>
-          <Navbar></Navbar>
-          {children}
+          <Providers>
+            <ToasterContext></ToasterContext>
+            <Navbar></Navbar>
+            {children}
+          </Providers>
         </AuthContextProvider>
       </body>
     </html>

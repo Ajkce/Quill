@@ -113,14 +113,14 @@ export default function Login() {
           </form>
           <h1 className="mt-3">Sign into Github below</h1>
           <button
-            onClick={() => signIn("github", { callbackUrl: "/" })}
+            onClick={() => signIn("github", { callbackUrl: "/dashboard" })}
             className="bg-black text-white w-full rounded-md py-1.5"
           >
             Sign In
           </button>
           <h1 className="mt-3">Sign into Google below</h1>
           <button
-            onClick={() => signIn("google", { callbackUrl: "/" })}
+            onClick={() => signIn("google", { callbackUrl: "/dashboard" })}
             className="bg-red-600 hover:bg-red-700 text-white w-full py-1.5 rounded-md"
           >
             Sign In

@@ -2,9 +2,7 @@ import { Cloud, Divide, File, Loader2 } from "lucide-react";
 import React, { useState } from "react";
 import DropZone from "react-dropzone";
 import { Progress } from "./ui/progress";
-import { resolve } from "path";
 import { useUploadThing } from "@/libs/uploadthing";
-import toast from "react-hot-toast";
 import { useToast } from "./ui/use-toast";
 import { trpc } from "@/app/_trpc/client";
 import { useRouter } from "next/navigation";
@@ -52,6 +50,7 @@ const UploadDropZone = () => {
 
         //Handle file upload
         const res = await startUpload(acceptedFile);
+
         if (!res) {
           return toast({
             title: "Something went wrong",
@@ -78,21 +77,35 @@ const UploadDropZone = () => {
         StartPooling({ key });
       }}
     >
-      {({ getRootProps, getInputProps, acceptedFiles }) => (
+      {({
+        getRootProps,
+        getInputProps,
+        acceptedFiles,
+        isDragActive,
+        isDragReject,
+      }) => (
         <div
           {...getRootProps()}
-          className="border h-64 m-4 border-dashed border-gray-300 rounded-lg"
+          className={`border h-64 m-6 border-dashed rounded-xl ${
+            isDragActive ? "border-green-400" : ""
+          } ${isDragReject ? "border-red-400" : ""}`}
         >
           <div className="flex items-center justify-center h-full w-full">
+            <input
+              {...getInputProps()}
+              type="file"
+              id="dropzone-file"
+              className="hidden"
+            ></input>
+
             <label
-              htmlFor="dropzone-file"
+              // className="flex flex-col items-center justify-center w-full h-full rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100"
               className="flex flex-col items-center justify-center w-full h-full rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100"
             >
               <div className="flex flex-col items-center justify-center pt-5 pb-6">
                 <Cloud className="h-6 w-6 text-zinc-500 mb-2"></Cloud>
                 <p className="mb-2 text-sm text-zinc-700">
                   <span className="font-semibold">Click to upload </span>
-                  or drag and drop
                 </p>
                 <p className="text-xs text-zinc-500">PDF (up to 4mb)</p>
               </div>
@@ -123,12 +136,6 @@ const UploadDropZone = () => {
                   ) : null}
                 </div>
               ) : null}
-              <input
-                {...getInputProps()}
-                type="file"
-                id="dropzone-file"
-                className="hidden"
-              ></input>
             </label>
           </div>
         </div>

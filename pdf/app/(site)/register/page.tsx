@@ -11,8 +11,7 @@ export default function Register() {
     password: "",
   });
 
-
-  const registerUser = async (e: React.FormEvent<HTMLInputElement>) => {
+  const registerUser = async (e: React.FormEvent) => {
     e.preventDefault();
     axios
       .post("/api/register", data)

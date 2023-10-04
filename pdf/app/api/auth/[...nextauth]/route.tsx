@@ -57,7 +57,46 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   ],
+  callbacks: {
+    async jwt({ token, user, session }) {
+      // console.log(
+      //   "JWT Callback",
+      //   "JTW token",
+      //   token,
+      //   "JWT use",
+      //   user,
+      //   "JWT session",
+      //   session
+      // );
 
+      //On sign in there will be a user
+      //So pass the user data into the token, which will be then passed ito the session token
+      if (user) {
+        return { ...token, id: user.id };
+      }
+
+      return token;
+    },
+    async session({ session, token, user }) {
+      // console.log(
+      //   "Session callback",
+      //   "Session session",
+      //   session,
+      //   "Session token",
+      //   token,
+      //   "Session user",
+      //   user
+      // );
+
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          id: token.id,
+        },
+      };
+    },
+  },
   secret: process.env.SECRET,
   session: {
     strategy: "jwt",

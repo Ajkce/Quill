@@ -4,15 +4,13 @@ import { Dialog, DialogTrigger } from "@radix-ui/react-dialog";
 import React, { useState } from "react";
 import { Button } from "./ui/button";
 import { DialogContent } from "./ui/dialog";
-
-
 import UploadDropZone from "./UploadDropZone";
 
 const UploadButton = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   return (
     <Dialog
-      open-={isOpen}
+      open={isOpen}
       onOpenChange={(v) => {
         if (!v) {
           setIsOpen(v);
@@ -23,7 +21,9 @@ const UploadButton = () => {
         <Button>Upload PDF</Button>
       </DialogTrigger>
 
-      <DialogContent><UploadDropZone></UploadDropZone></DialogContent>
+      <DialogContent>
+        <UploadDropZone></UploadDropZone>
+      </DialogContent>
     </Dialog>
   );
 };

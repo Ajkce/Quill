@@ -1,6 +1,12 @@
 "use client";
 
-import { ChevronDown, ChevronUp, Loader2, Search } from "lucide-react";
+import {
+  ChevronDown,
+  ChevronUp,
+  Loader2,
+  RotateCw,
+  Search,
+} from "lucide-react";
 import { Document, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
@@ -21,6 +27,7 @@ import {
 } from "./ui/dropdown-menu";
 
 import SimpleBar from "simplebar-react";
+import PdfFullScreen from "./PdfFullScreen";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
@@ -34,6 +41,7 @@ const PdfRenderer = ({ url }: pdfRendererProps) => {
   const [numPages, setNumPages] = useState<number>();
   const [currPage, setCurrPage] = useState<number>(1);
   const [scale, setScale] = useState<number>(1);
+  const [rotation, setRotation] = useState<number>(0);
 
   const customPageValidator = z.object({
     page: z
@@ -111,7 +119,9 @@ const PdfRenderer = ({ url }: pdfRendererProps) => {
             <ChevronUp></ChevronUp>
           </Button>
         </div>
+
         <div className="space-x-2">
+          {/* PDF Zoom in functionality by using shadcn dropdown utility */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button aria-label="zoom" variant="ghost" className="gap-1.5">
@@ -136,6 +146,19 @@ const PdfRenderer = ({ url }: pdfRendererProps) => {
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
+
+        {/* Rotate the pdf */}
+
+        <Button
+          variant="ghost"
+          onClick={() => setRotation((prev) => prev + 90)}
+          aria-label="rotate-90-deg"
+        >
+          <RotateCw className="h-4 w-4"> </RotateCw>
+        </Button>
+
+        {/* View the pdf in full screen */}
+        <PdfFullScreen fileUrl={url}></PdfFullScreen>
       </div>
 
       {/* Display the pdf page */}
@@ -166,6 +189,7 @@ const PdfRenderer = ({ url }: pdfRendererProps) => {
                 width={width ? width : 1}
                 pageNumber={currPage}
                 scale={scale}
+                rotate={rotation}
               >
                 {" "}
               </Page>

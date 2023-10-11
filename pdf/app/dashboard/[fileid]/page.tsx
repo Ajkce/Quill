@@ -1,5 +1,5 @@
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import ChatWrapper from "@/components/ChatWrapper";
+import ChatWrapper from "@/components/chat/ChatWrapper";
 import PdfRenderer from "@/components/PdfRenderer";
 import prisma from "@/libs/prismadb";
 import { getServerSession } from "next-auth";
@@ -48,7 +48,7 @@ const page = async ({ params }: PageProps) => {
 
         {/* Right hand side */}
         <div className="shrink-0 flex-[0.75] border-t border-gray-200 lg:w-96 lg:border-l lg:border-t-0">
-          <ChatWrapper></ChatWrapper>
+          <ChatWrapper fileId={fileid}></ChatWrapper>
         </div>
       </div>
     </div>

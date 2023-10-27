@@ -55,7 +55,7 @@ export const ourFileRouter = {
 
         await PineconeStore.fromDocuments(pageLevelDocs, embeddings, {
           pineconeIndex,
-          namespace: createdFile.id,
+          
         });
 
         await prisma.file.update({
@@ -67,7 +67,7 @@ export const ourFileRouter = {
           },
         });
       } catch (error) {
-        console.log(error)
+        console.log(error);
         await prisma.file.update({
           data: {
             uploadStatus: "FAILED",

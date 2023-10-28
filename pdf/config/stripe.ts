@@ -13,7 +13,7 @@ export const PLANS = [
     },
   },
   {
-    name: "pro",
+    name: "Pro",
     slug: "pro",
     quota: 50,
     pagesPerPdf: 25,

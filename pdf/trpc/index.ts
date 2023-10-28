@@ -7,6 +7,8 @@ import { z } from "zod";
 import { INFINITE_QUERY_LIMIT } from "@/config/infinite-query";
 import { Dai_Banna_SIL } from "next/font/google";
 import { absoluteUrl } from "@/libs/utils";
+import { getUserSubscriptionPlan, stripe } from "@/libs/stripe";
+import { PLANS } from "@/config/stripe";
 
 export const appRouter = router({
   authCallback: publicProcedure.query(async () => {
@@ -44,6 +46,7 @@ export const appRouter = router({
 
   createStripeSession: privateProcedure.mutation(async ({ ctx }) => {
     const { userId } = ctx;
+
     const billingUrl = absoluteUrl("/dashboard/billing");
 
     if (!userId) throw new TRPCError({ code: "UNAUTHORIZED" });
@@ -53,11 +56,38 @@ export const appRouter = router({
         id: userId,
       },
     });
+
     if (!dbUser) throw new TRPCError({ code: "UNAUTHORIZED" });
 
+    const subscriptionPlan = await getUserSubscriptionPlan();
 
-    
+    if (subscriptionPlan.isSubscribed && dbUser.stripeCustomerId) {
+      const stripeSession = await stripe.billingPortal.sessions.create({
+        customer: dbUser.stripeCustomerId,
+        return_url: billingUrl,
+      });
+
+      return { url: stripeSession.url };
+    }
+
+    const stripeSession = await stripe.checkout.sessions.create({
+      success_url: billingUrl,
+      cancel_url: billingUrl,
+      mode: "subscription",
+      line_items: [
+        {
+          price: PLANS.find((plan) => plan.name === "Pro")?.price.priceIds.test,
+          quantity: 1,
+        },
+      ],
+      metadata: {
+        userId: userId,
+      },
+    });
+
+    return { url: stripeSession.url };
   }),
+
   getFileMessages: privateProcedure
     .input(
       z.object({

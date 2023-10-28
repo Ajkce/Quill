@@ -6,6 +6,7 @@ import prisma from "@/libs/prismadb";
 import { z } from "zod";
 import { INFINITE_QUERY_LIMIT } from "@/config/infinite-query";
 import { Dai_Banna_SIL } from "next/font/google";
+import { absoluteUrl } from "@/libs/utils";
 
 export const appRouter = router({
   authCallback: publicProcedure.query(async () => {
@@ -41,6 +42,22 @@ export const appRouter = router({
     });
   }),
 
+  createStripeSession: privateProcedure.mutation(async ({ ctx }) => {
+    const { userId } = ctx;
+    const billingUrl = absoluteUrl("/dashboard/billing");
+
+    if (!userId) throw new TRPCError({ code: "UNAUTHORIZED" });
+
+    const dbUser = await prisma.user.findFirst({
+      where: {
+        id: userId,
+      },
+    });
+    if (!dbUser) throw new TRPCError({ code: "UNAUTHORIZED" });
+
+
+    
+  }),
   getFileMessages: privateProcedure
     .input(
       z.object({

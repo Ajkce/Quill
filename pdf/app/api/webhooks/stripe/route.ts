@@ -1,4 +1,3 @@
-import { db } from "@/db";
 import prisma from "@/libs/prismadb";
 import { stripe } from "@/libs/stripe";
 import { headers } from "next/headers";

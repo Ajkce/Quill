@@ -74,9 +74,9 @@ const pricingItems = [
   },
 ];
 
-const page = () => {
+const Page = () => {
   // const session = await getServerSession(authOptions);
-  const {data, status} = useSession()
+  const { data, status } = useSession();
   return (
     <>
       <MaxWidthWrapper className="mb-8 mt-24 text-center max-w-5xl">
@@ -175,28 +175,28 @@ const page = () => {
                   </ul>
                   <div className="border-t border-gray-200">
                     <div className="p-5">
-                    {plan === 'Free' ? (
+                      {plan === "Free" ? (
                         <Link
-                          href={
-                            data ? '/dashboard' : '/sign-in'
-                          }
+                          href={data ? "/dashboard" : "/sign-in"}
                           className={buttonVariants({
-                            className: 'w-full',
-                            variant: 'secondary',
-                          })}>
-                          {data ? 'Upgrade now' : 'Sign up'}
-                          <ArrowRight className='h-5 w-5 ml-1.5' />
+                            className: "w-full",
+                            variant: "secondary",
+                          })}
+                        >
+                          {data ? "Upgrade now" : "Sign up"}
+                          <ArrowRight className="h-5 w-5 ml-1.5" />
                         </Link>
                       ) : data ? (
                         <UpgradeButton />
                       ) : (
                         <Link
-                          href='/sign-in'
+                          href="/sign-in"
                           className={buttonVariants({
-                            className: 'w-full',
-                          })}>
-                          {data ? 'Upgrade now' : 'Sign up'}
-                          <ArrowRight className='h-5 w-5 ml-1.5' />
+                            className: "w-full",
+                          })}
+                        >
+                          {data ? "Upgrade now" : "Sign up"}
+                          <ArrowRight className="h-5 w-5 ml-1.5" />
                         </Link>
                       )}
                     </div>
@@ -211,4 +211,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

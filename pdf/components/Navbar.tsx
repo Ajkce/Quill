@@ -9,6 +9,7 @@ import { ArrowRight } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import UserAccountNav from "./UserAccountNav";
 import { userAgent } from "next/server";
+import MobileNav from "./MobileNav";
 
 const Navbar = () => {
   const { data, status } = useSession();
@@ -18,10 +19,10 @@ const Navbar = () => {
         <div className="flex h-14 items-center justify-between border-b border-zinc-200">
           <Link href="/" className="flex z-40 font-semibold">
             <span>quill.</span>
-           
           </Link>
 
           {/* Add mobile navbar */}
+          <MobileNav isAuth={!!data}></MobileNav>
 
           <div className="hidden items-center space-x-4 sm:flex">
             {status !== "authenticated" ? (
